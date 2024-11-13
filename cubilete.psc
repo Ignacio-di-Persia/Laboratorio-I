@@ -96,13 +96,13 @@ Funcion puntosObtenidos <- ObtenerResultado(posicionPelota, ronda, puntosTotales
     ha <- HoraActual() // Captura la hora actual al inicio
     minInicio <- trunc(ha / 100) % 100
     segInicio <- ha % 100
-    Repetir
+    contadorCiclos<-0
+	Repetir
 		Si contadorCiclos>0 Entonces
 			Escribir "El ingreso <",auxeleccionJugador,"> no es un ingreso valido. Por favor intente nuevamente:"
 		FinSi
 		Leer auxeleccionJugador
 		numeroOK<-0
-		contadorCiclos<-0
 		Para i<-0 hasta Longitud(auxeleccionJugador)-1 Hacer
 			Si Subcadena(auxeleccionJugador,i,i)="1" | Subcadena(auxeleccionJugador,i,i)="2" | Subcadena(auxeleccionJugador,i,i)="3" Entonces
 				numeroOK<-numeroOK+1
@@ -144,13 +144,26 @@ Fin Funcion
 
 // desea continuar?
 Funcion continuar <- PreguntarContinuar
+	Definir continuar Como Real
+    Definir auxContinuar Como Caracter
     Escribir "¿Querés jugar de nuevo? (1 = Sí, 0 = No): "
-    Leer continuar
-	Mientras (continuar < 0 o continuar > 1) Hacer
-		Escribir "Ingrese un valor válido, ¿Querés jugar de nuevo? (1 = Sí, 0 = No):"
-		Leer continuar
-	Fin Mientras
-    continuar <- continuar
+	
+	contadorCiclos<-0
+	Repetir
+		Si contadorCiclos>0 Entonces
+			Escribir "El ingreso <",auxContinuar,"> no es un ingreso valido. Por favor intente nuevamente:"
+		FinSi
+		Leer auxContinuar
+		numeroOK<-0
+		Para i<-0 hasta Longitud(auxContinuar)-1 Hacer
+			Si Subcadena(auxContinuar,i,i)="0" | Subcadena(auxContinuar,i,i)="1" Entonces
+				numeroOK<-numeroOK+1
+			FinSi
+		FinPara
+		contadorCiclos<-contadorCiclos+1
+	Mientras Que numeroOK<>Longitud(auxContinuar) y (auxContinuar<>"0" | auxContinuar <>"1")
+	
+	continuar<-ConvertirANumero(auxContinuar)
 Fin Funcion
 
 Proceso DescubrirLaPelota
@@ -180,4 +193,3 @@ Proceso DescubrirLaPelota
     
     Escribir "¡Gracias por jugar! Puntuación final: ", puntosTotales
 FinProceso
-
