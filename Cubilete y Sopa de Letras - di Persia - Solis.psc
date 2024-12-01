@@ -1,3 +1,7 @@
+Funcion limpiarPalabraEncontrada ( Argumentos )
+	
+Fin Funcion
+
 Funcion sopaDeLetras
 	// El vector abecedario se utiliza para validar el ingreso de las palabras personalizadas y para rellenar con letras aleatorias
 	cantidadLetrasAbecedario<-27
@@ -586,7 +590,7 @@ Funcion palabraEncontrada<-buscarEnSeleccion(grilla Por Referencia, vectorPalabr
 		columna<-columnaInicial
 		Para j<-0 Hasta largo Con Paso 1 Hacer
 //			Escribir ""
-//			Escribir "soy indice ",i
+//			Escribir "soy la palabra ",i
 //			Escribir "soy la fila en la grilla ",fila
 //			Escribir "soy la columna en la grilla ",columna
 //			Escribir ""
@@ -602,7 +606,15 @@ Funcion palabraEncontrada<-buscarEnSeleccion(grilla Por Referencia, vectorPalabr
 			columna<-columna+avanceColumnas
 		Fin Para
 	Fin Para
-	
+	Si palabraEncontrada=1 Entonces
+		fila<-filaInicial
+		columna<-columnaInicial
+		Para j<-0 Hasta largo Con Paso 1 Hacer
+			grilla[fila,columna]<-" "
+			fila<-fila+avanceFilas
+			columna<-columna+avanceColumnas
+		Fin Para
+	FinSi
 Fin Funcion
 
 Funcion avances(avanceColumnas Por Referencia, avanceFilas Por Referencia, cambioFilas Por Valor, cambioColumnas Por Valor)
@@ -729,6 +741,7 @@ Funcion buscarPalabras(vectorPalabras Por Referencia, palabrasUtilizadas Por Val
 		
 		palabraEncontradaEnEstaRonda<-buscarEnSeleccion(grilla, vectorPalabras, palabrasUtilizadas, indicePalabraEncontrada, avanceFilas, avanceColumnas, filaInicial, filaFinal, columnaInicial, columnaFinal)
 		
+		
 		Si palabraEncontradaEnEstaRonda=0 & indicePalabraEncontrada=-1 Entonces
 			Escribir "No se encontraron palabras en tu seleccion."
 		SiNo
@@ -809,6 +822,9 @@ Funcion mostrarMatriz(grilla Por Referencia, filas Por Valor, columnas Por Valor
 	Fin Para
 FinFuncion
 
+// *****************************************************************************************************************************************************************************
+
+// Cubiletes
 
 Funcion menuPrincipal <- menuPrin
 	
