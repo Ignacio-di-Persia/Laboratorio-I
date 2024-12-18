@@ -424,6 +424,9 @@ Funcion colocarPalabra(cantidadPalabras Por Valor, vectorFamilia Por Referencia,
 				De Otro Modo:
 					Escribir "Error en funcion Colocar Palabra "
 			FinSegun
+			Si Reinicio=1 Entonces
+				i<-cantidadPalabras
+			FinSi
 		Fin Para
 	Mientras Que Reinicio=1
 FinFuncion
@@ -536,21 +539,21 @@ Funcion error<-palabraDiagonalAsc(palabra Por Valor, matriz Por Referencia, fila
 	contadorCiclos<-0
 	maximoCiclos<-filas*columnas
 	Repetir
-		posicionInvalida<-0
+		colocacionInvalida<-0
 		indiceFila<-azar(filas-Longitud(palabra)+1)+filaInicialMinima
 		indiceColumna<-azar(columnaInicialMaxima+1)
 		auxindiceFila<-indiceFila
 		auxindiceColumna<-indiceColumna
 		Para i<-0 Hasta Longitud(palabra)-1 Con Paso 1 Hacer
 			Si matriz[auxindiceFila,auxindiceColumna]<>"-" Entonces
-				posicionInvalida<-1
+				colocacionInvalida<-1
 				i<-Longitud(palabra) // Sale del ciclo for, si una letra no se puede colocar no tiene sentido seguir evaluando el resto de letras
 			FinSi
 			auxindiceFila<-AuxindiceFila-1
 			auxindiceColumna<-AuxindiceColumna+1
 		FinPara
 		contadorCiclos<-contadorCiclos+1
-	Mientras Que (posicionInvalida=1 & contadorCiclos<maximoCiclos)
+	Mientras Que (colocacionInvalida=1 & contadorCiclos<maximoCiclos)
 //	Escribir palabra // testing
 //	Escribir Longitud(palabra) // testing
 //	Esperar Tecla // testing
@@ -558,9 +561,9 @@ Funcion error<-palabraDiagonalAsc(palabra Por Valor, matriz Por Referencia, fila
 		auxindiceFila<-indiceFila
 		auxindiceColumna<-indiceColumna
 		Para i<-0 Hasta Longitud(palabra)-1 Con Paso 1 Hacer
-			matriz[indiceFila,indiceColumna]<-Mayusculas(Subcadena(palabra,i,i))
-			indiceFila<-indiceFila-1
-			indiceColumna<-indiceColumna+1
+			matriz[auxindiceFila,auxindiceColumna]<-Mayusculas(Subcadena(palabra,i,i))
+			auxindiceFila<-auxindiceFila-1
+			auxindiceColumna<-auxindiceColumna+1
 		FinPara
 	SiNo
 		error<-1
@@ -753,12 +756,10 @@ Funcion buscarPalabras(vectorPalabras Por Referencia, palabrasUtilizadas Por Val
 			seguir<-Mayusculas(seguir)
 		FinSi
 	Mientras Que seguir<>"ME RINDO" & cantidadPalabrasEncontradas<>palabrasUtilizadas
-	
+	Limpiar Pantalla
 	Si cantidadPalabrasEncontradas=palabrasUtilizadas Entonces
-		Limpiar Pantalla
 		Escribir "¡GANASTE!"
 	SiNo
-		Limpiar Pantalla
 		Escribir "Te rendiste :("
 	FinSi
 	
