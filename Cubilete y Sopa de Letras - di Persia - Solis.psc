@@ -1,7 +1,3 @@
-Funcion limpiarPalabraEncontrada ( Argumentos )
-	
-Fin Funcion
-
 Funcion sopaDeLetras
 	// El vector abecedario se utiliza para validar el ingreso de las palabras personalizadas y para rellenar con letras aleatorias
 	cantidadLetrasAbecedario<-27
@@ -31,14 +27,14 @@ Funcion sopaDeLetras
 	Dimensionar familiaDePalabras[cantidadMaximaPalabras]
 	// Inicializamos el vector de palabras con "." 
 	inicializarVector(familiaDePalabras, cantidadMaximaPalabras)
-	// Cargamos el vector de palabras con la familia de palabras seleccionada en seleccionFamilia()
 	largoMaximoPalabra<-10
-	op<-seleccionFamilia()
-	cargarVector(familiaDePalabras, cantidadMaximaPalabras, largoMaximoPalabra, abecedario , vNumeros, op)
-	Si op<>0 Entonces
+	codigoFamilia<-seleccionFamilia()
+	Si codigoFamilia<>0 Entonces
+		// Cargamos el vector de palabras con la familia de palabras seleccionada en seleccionFamilia()
+		cantidadPalabrasUsadas<-cargarVector(familiaDePalabras, cantidadMaximaPalabras, largoMaximoPalabra, abecedario , vNumeros, codigoFamilia)
 //		mostrarVector(familiaDePalabras, cantidadMaximaPalabras) // testing 
 		//Contamos la cantidad de palabras que realmente fueron utilizadas en el vector, es decir las posiciones del vector en las que no hay "."
-		cantidadPalabrasUsadas<-contarPalabrasUtilizadas(familiaDePalabras, cantidadMaximaPalabras)
+		//cantidadPalabrasUsadas<-contarPalabrasUtilizadas(familiaDePalabras, cantidadMaximaPalabras)
 //		Escribir cantidadPalabrasUsadas // testing
 //		Esperar Tecla // testing
 //		mostrarVector(familiaDePalabras, cantidadPalabrasUsadas) // testing
@@ -53,11 +49,11 @@ Funcion sopaDeLetras
 	FinSi
 Fin Funcion
 
-Funcion cantidadPalabrasUsuario<-validarCantidadPalabras(cantidadMaximaPalabras Por Valor, vectorNumeros Por Referencia)
+Funcion palabrasUtilizadas<-validarCantidadPalabras(cantidadMaximaPalabras Por Valor, vectorNumeros Por Referencia)
 	Repetir
-		Escribir "¿Cuantas palabras desea ingresar?"
+		Escribir "¿Cuantas palabras desea ingresar? (Máximo ", cantidadMaximaPalabras, "  palabras)"
 		Leer entradaUsuario
-		entradaValida=0
+		entradaValida<-0
 		Para i<-0 Hasta Longitud(entradaUsuario)-1 Con Paso 1 Hacer
 			Para j<-0 Hasta 9 Con Paso 1 Hacer
 				Si vectorNumeros[j]=Subcadena(entradaUsuario,i,i)
@@ -66,17 +62,18 @@ Funcion cantidadPalabrasUsuario<-validarCantidadPalabras(cantidadMaximaPalabras 
 			Fin Para
 		Fin Para
 		Si entradaValida=Longitud(entradaUsuario) Entonces
-			cantidadPalabrasUsuario<-ConvertirANumero(entradaUsuario)
-		FinSi
-		Si cantidadPalabrasUsuario>cantidadMaximaPalabras Entonces
-			Escribir "El maximo de palabras permitido es de <",cantidadMaximaPalabras,"> palabras. Por favor, ingrese un valor valido entre <1> y <",cantidadMaximaPalabras,">"
-			cantidadPalabrasUsuario=0
-		SiNo
-			Si entradaValida<>Longitud(entradaUsuario) Entonces
-				Escribir "<",entradaUsuario,"> no es un numero valido. Por favor, ingrese un valor valido entre <1> y <10>"
+			palabrasUtilizadas<-ConvertirANumero(entradaUsuario)
+			Si palabrasUtilizadas>cantidadMaximaPalabras Entonces
+				Escribir "El maximo de palabras permitido es de <",cantidadMaximaPalabras,"> palabras. Por favor, ingrese un valor valido entre <1> y <",cantidadMaximaPalabras,">"
+			SiNo
+				Si palabrasUtilizadas=0 Entonces
+					Escribir "El mínimo de palabras permitido es de <1> palabra. Por favor, ingrese un valor valido entre <1> y <",cantidadMaximaPalabras,">"
+				FinSi
 			FinSi
+		SiNo
+			Escribir "<",entradaUsuario,"> no es un numero valido. Por favor, ingrese un valor valido entre <1> y <10>"
 		FinSi
-	Mientras Que (entradaValida<>Longitud(entradaUsuario) | cantidadPalabrasUsuario>cantidadMaximaPalabras | cantidadPalabrasUsuario=0)
+	Mientras Que (entradaValida<>Longitud(entradaUsuario) | palabrasUtilizadas>cantidadMaximaPalabras | palabrasUtilizadas=0)
 Fin Funcion
 
 Funcion palabraInvertida<-invertirPalabra(palabra)
@@ -169,10 +166,9 @@ Funcion llenarRestantes(grilla Por Referencia, filas Por Valor, columnas Por Val
 	Fin Para
 FinFuncion
 
-Funcion cargarVector(vectorPalabras Por Referencia, cantidadMaximaPalabras Por Valor, cantidadMaximaLetras por Valor, abecedario Por Referencia, vectorNumeros Por Referencia, codigoFamilia Por Valor)
+Funcion cantidadPalabrasUsuario<-cargarVector(vectorPalabras Por Referencia, cantidadMaximaPalabras Por Valor, cantidadMaximaLetras por Valor, abecedario Por Referencia, vectorNumeros Por Referencia, codigoFamilia Por Valor)
+	cantidadPalabrasUsuario<-10
 	Segun codigoFamilia Hacer
-		0:
-			animacionTexto("Saliendo del juego",".",3)
 		1:	// Comidas
 			vectorPalabras[0]<-"Pizza"
 			vectorPalabras[1]<-"Fideos"
@@ -281,17 +277,15 @@ FinFuncion
 
 Funcion animacionTexto(palabra Por Valor, simbolo Por Valor,cantSimbolos Por Valor)
 	Para i<-0 Hasta cantSimbolos Con Paso 1 Hacer
+		Limpiar Pantalla
 		Segun i Hacer
 			0:
-				Limpiar Pantalla
-				Escribir palabra
-				Esperar 500 Milisegundos
+				// No hace nada
 			De Otro Modo:
-				Limpiar Pantalla
 				palabra<-Concatenar(palabra,simbolo)
-				Escribir palabra
-				Esperar 500 Milisegundos
 		FinSegun
+		Escribir palabra
+		Esperar 500 Milisegundos
 	FinPara
 FinFuncion
 
@@ -362,7 +356,7 @@ Funcion palabraOK<-ingresarPalabraPersonalizada(cantidadMaximaLetras Por Valor,a
 			FinPara
 		FinPara
 		contadorCiclos<-contadorCiclos+1
-	Mientras Que (Longitud(palabraOK)>cantidadMaximaLetras O Longitud(palabraOK)<>letrasOK)=Verdadero
+	Mientras Que (Longitud(palabraOK)>cantidadMaximaLetras | Longitud(palabraOK)<>letrasOK)
 FinFuncion
 
 Funcion codigoFamilia<-seleccionFamilia
@@ -379,7 +373,7 @@ Funcion codigoFamilia<-seleccionFamilia
 		FinSi
 		Leer codigo
 		contadorCiclos<-contadorCiclos+1
-	Mientras Que (codigo<>"0" Y codigo<>"1" Y codigo<>"2" Y codigo<>"3" Y codigo<>"4" Y codigo<>"5" )=Verdadero
+	Mientras Que (codigo<>"0" Y codigo<>"1" Y codigo<>"2" Y codigo<>"3" Y codigo<>"4" Y codigo<>"5")=Verdadero
 	Limpiar Pantalla
 	codigoFamilia<-ConvertirANumero(codigo)
 FinFuncion
@@ -435,6 +429,7 @@ Funcion colocarPalabra(cantidadPalabras Por Valor, vectorFamilia Por Referencia,
 FinFuncion
 
 Funcion error<-palabraHorizontal(palabra Por Valor, matriz Por Referencia, filas Por Valor, columnas Por Valor, numeroPalabra Por Valor)
+	error<-0
 	contadorCiclos<-0
 	maximoCiclos<-filas*columnas
 	Repetir
@@ -461,7 +456,6 @@ Funcion error<-palabraHorizontal(palabra Por Valor, matriz Por Referencia, filas
 		Fin Para
 	SiNo
 		error<-1
-		Escribir error
 	FinSi
 FinFuncion
 
@@ -509,7 +503,7 @@ Funcion error<-palabraDiagonalDesc(palabra Por Valor, matriz Por Referencia, fil
 		Para i<-indiceFila Hasta indiceFila+Longitud(palabra)-1 Con Paso 1 Hacer
 			Si matriz[auxFila,auxColumna]<>"-"
 				colocacionInvalida<-1
-				i<-indiceFila+Longitud(palabra)-1
+				i<-indiceFila+Longitud(palabra) // Sale del ciclo for, si una letra no se puede colocar no tiene sentido seguir evaluando el resto de letras
 			FinSi
 			auxFila<-auxFila+1
 			auxColumna<-auxColumna+1
@@ -537,20 +531,20 @@ Funcion error<-palabraDiagonalDesc(palabra Por Valor, matriz Por Referencia, fil
 FinFuncion
 
 Funcion error<-palabraDiagonalAsc(palabra Por Valor, matriz Por Referencia, filas Por Valor, columnas Por Valor, numeroPalabra Por Valor)
-	columnaInicialMax<-columnas-Longitud(palabra) 
-	filaInicialMax<-filas-1-(filas-Longitud(palabra))
+	columnaInicialMaxima<-columnas-Longitud(palabra) 
+	filaInicialMinima<-Longitud(palabra)-1
 	contadorCiclos<-0
 	maximoCiclos<-filas*columnas
 	Repetir
 		posicionInvalida<-0
-		indiceFila<-azar(filas-Longitud(palabra)+1)+filaInicialMax
-		indiceColumna<-azar(columnaInicialMax+1)
+		indiceFila<-azar(filas-Longitud(palabra)+1)+filaInicialMinima
+		indiceColumna<-azar(columnaInicialMaxima+1)
 		auxindiceFila<-indiceFila
 		auxindiceColumna<-indiceColumna
 		Para i<-0 Hasta Longitud(palabra)-1 Con Paso 1 Hacer
-			Si matriz[auxindiceFila,AuxindiceColumna]<>"-" Entonces
+			Si matriz[auxindiceFila,auxindiceColumna]<>"-" Entonces
 				posicionInvalida<-1
-				i<-Longitud(palabra)-1
+				i<-Longitud(palabra) // Sale del ciclo for, si una letra no se puede colocar no tiene sentido seguir evaluando el resto de letras
 			FinSi
 			auxindiceFila<-AuxindiceFila-1
 			auxindiceColumna<-AuxindiceColumna+1
@@ -610,7 +604,7 @@ Funcion palabraEncontrada<-buscarEnSeleccion(grilla Por Referencia, vectorPalabr
 		fila<-filaInicial
 		columna<-columnaInicial
 		Para j<-0 Hasta largo Con Paso 1 Hacer
-			grilla[fila,columna]<-" "
+			grilla[fila,columna]<-"-"
 			fila<-fila+avanceFilas
 			columna<-columna+avanceColumnas
 		Fin Para
@@ -1061,6 +1055,9 @@ Algoritmo Kermes
 					Escribir "¿Desea jugar nuevamente? Escriba <no> para salir. Cualquier otro ingreso continuara con el juego."
 					Leer seguir
 					seguir<-Mayusculas(seguir)
+					Si seguir="NO" Entonces
+						animacionTexto("Saliendo del juego",".",3)
+					FinSi
 				Mientras Que seguir<>"NO"
 			De Otro Modo:
 				Escribir "Ingreso incorrecto vuelva a intentarlo."
